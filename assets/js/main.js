@@ -2,8 +2,12 @@
 
 function success() {
   Swal.fire({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
     type: "success",
-    title: "profile added succesfully"
+    title: "Profile Added Successfully"
   });
 }
 

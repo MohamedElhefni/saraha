@@ -85,11 +85,29 @@ require 'core/init.php';
             ),
         ));
         if ($validation->passed()) {
-            echo "
-            <script>
-                success();
-            </script>
-        ";
+
+            $user = new user();
+            $salt = hash::salt(32);
+            try {
+                $user->create(array(
+                    'username' => input::get('username'),
+                    'password' => hash::make(input::get('password'), $salt),
+                    'salt' => $salt,
+                    'name' => input::get('name'),
+                    'joined' => date('Y-m-d H:i:s'),
+                    'group' => 1,
+                ));
+                echo "
+                    <script>
+                        success();
+                    </script>
+                ";
+                echo "<script> setTimeout('window.open(\'login.php\', \'_self\')', 2000) </script>";
+            } catch (Exception $e) {
+                echo "<script> 
+                    error(' " . $e->getMessage() . "');
+                </script>";
+            }
         } else {
             $err = '';
             foreach ($validation->errors() as $valid) {
