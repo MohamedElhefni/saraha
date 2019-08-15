@@ -9,34 +9,49 @@ require 'core/init.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
     <title>Document</title>
 </head>
 
-<body>
-    <div class="register">
-        <div class="container">
-            <div class="register-form">
-                <form action="" method="post">
-                    <h1 class="main-header">Register</h1>
-                    <div class="field">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" value="<?php echo escape(input::get('username')) ?>" placeholder="Enter Username">
-                    </div>
-                    <div class="field">
-                        <label for="password">password</label>
-                        <input type="password" name="password" id="password" placeholder="Enter Password">
-                    </div>
-                    <div class="field">
-                        <label for="password_again">password again</label>
-                        <input type="password" name="password_again" id="password_again" placeholder="Enter Password again">
-                    </div>
-                    <div class="field">
-                        <label for="name">name</label>
-                        <input type="text" name="name" id="name" value="<?php echo  escape(input::get('name')) ?>" placeholder="Enter name">
-                    </div>
-                    <input type="submit" value="Register">
-                </form>
-            </div>
+<body class="min-h-screen flex items-center">
+    <div class="container mx-auto">
+        <div class="w-full  mx-auto max-w-lg">
+
+            <form method="post" class="bg-white   shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h1 class="text-4xl text-gray-700 text-center font-bold">Register</h1>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Username
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-gray-500" name="username" id="username" value="<?php echo escape(input::get('username')) ?>" placeholder="Enter Username">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                        password
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-gray-500" id="password" name="password" type="password" placeholder="Enter Password">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password_again">
+                        password_again
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-gray-500" id="password_again" name="password_again" type="password" placeholder="Enter Password again">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        name
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-gray-500" name="name" id="name" value="<?php echo  escape(input::get('name')) ?>" placeholder="Enter name">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-gray-500" type="button">
+                        Register
+                    </button>
+
+                </div>
+            </form>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
