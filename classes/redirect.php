@@ -2,7 +2,7 @@
 
 class redirect
 {
-    public static function to($location)
+    public static function to($location = null)
     {
         if ($location) {
             if (is_numeric($location)) {

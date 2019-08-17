@@ -2,13 +2,34 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none !important;
 }
 
 :root {
-  --main-color: rgba(64, 203, 239, 0.86);
+  --main-color: #45bdb4;
 }
 
-body {
+body.linear {
   font-family: sans-serif;
-  background: linear-gradient(90deg, #188eff, #bf2421);
+  background: var(--main-color);
+}
+
+#avatar.active {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(2);
+  background: white;
+  transition: all 0.4s linear;
+  z-index: 2;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 1;
 }

@@ -1,13 +1,13 @@
 // SweetAlert Triggers
 
-function success() {
+function success(msg) {
   Swal.fire({
     toast: true,
     position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     type: "success",
-    title: "Profile Added Successfully"
+    title: msg
   });
 }
 

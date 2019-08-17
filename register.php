@@ -13,11 +13,11 @@ require 'core/init.php';
     <title>Document</title>
 </head>
 
-<body class="min-h-screen flex items-center">
+<body class="min-h-screen linear flex items-center">
     <div class="container mx-auto">
         <div class="w-full  mx-auto max-w-lg">
 
-            <form method="post" class="bg-white   shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form method="post" class="bg-white shadow-2xl  shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <h1 class="text-4xl text-gray-700 text-center font-bold">Register</h1>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -45,20 +45,26 @@ require 'core/init.php';
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-gray-500" type="button">
+                    <button type="submit" class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
                         Register
                     </button>
 
+
                 </div>
             </form>
-
+            <div class="text-center">
+                <p class="text-white text-sm">Have Account? <a href="login.php" class="no-underline text-blue font-bold">Login</a>.</p>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="assets/js/main.js"></script>
 
     <?php
-
+    $user = new user();
+    if ($user->isloggedIn()) {
+        header('Location:home.php');
+    }
     if (input::exists()) {
         $validate = new validate();
         $validation = $validate->check($_POST, array(
@@ -97,9 +103,10 @@ require 'core/init.php';
                     'joined' => date('Y-m-d H:i:s'),
                     'group' => 1,
                 ));
+                $msg = 'Profile Added Successfully';
                 echo "
                     <script>
-                        success();
+                        success('$msg');
                     </script>
                 ";
                 echo "<script> setTimeout('window.open(\'login.php\', \'_self\')', 2000) </script>";
