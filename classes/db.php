@@ -60,7 +60,6 @@ class DB
 
             if (in_array($operator, $operators)) {
                 $sql = " {$action} FROM {$table} WHERE {$feild} {$operator} ?";
-
                 if (!$this->query($sql, array($value))->error()) {
                     return $this;
                 }
@@ -113,7 +112,7 @@ class DB
                 $x++;
             }
 
-            $sql = "UPDATE $table SET $set WHERE id = $id";
+            $sql = "UPDATE $table SET $set WHERE id = '$id'";
             if (!$this->query($sql, $fields)->error()) {
                 return true;
             }

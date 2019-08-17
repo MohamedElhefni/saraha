@@ -60,7 +60,14 @@ if (!$user->isloggedIn()) {
 
                     </div>
                     <div class="px-6 py-4">
-                        <input disabled value="https://www.googe.com" type="text" class="block appearance-none w-full bg-white border border-grey-light focus:border-grey px-2 py-2 rounded shadow">
+                        <div class="flex w-full items-center ">
+                            <div class="w-4/5">
+                                <input readonly='readonly' id="link" value="<?php echo "http://localhost/php_oop_projects/login_register/send.php?user_id=" . "{$user->data()->id}" ?>" type="text" class="block appearance-none w-full bg-white border border-grey-light focus:border-grey px-2 py-2 rounded shadow">
+                            </div>
+                            <div class="w-1/5">
+                                <i class="fa fa-copy fa-2x cursor-pointer text-teal-500 ml-2" id='copy'></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +107,15 @@ if (!$user->isloggedIn()) {
         </div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         <script src="assets/js/main.js"></script>
+        <script src="assets/js/jquery.js"></script>
+        <script>
+            $('#copy').on('click', function() {
+                let text = $('#link')
+                text.select();
+                document.execCommand('copy');
+                success('Copied')
+            })
+        </script>
         <?php
         if (input::exists()) {
             $validate = new validate();

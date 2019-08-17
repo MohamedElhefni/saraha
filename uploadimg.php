@@ -1,7 +1,8 @@
 <?php
 require './core/init.php';
+header('Content-type: application/json');
 $user = new user();
-if (isset($_POST['submit'])) {
+if (!empty($_FILES)) {
     $upload = new upload($_FILES['img']);
     $uploadvalid = $upload->check(array(
         'size' => 5,
@@ -13,14 +14,23 @@ if (isset($_POST['submit'])) {
     ));
 
     if ($upload->passed()) {
+        $result = array();
         if (move_uploaded_file($_FILES['img']['tmp_name'], $upload->file())) {
-            echo 'success';
+            $result['status'] = array('success', $upload->file());
+
             db::getInstance()->update('users', $user->data()->id, array('avatar' => $upload->file()));
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            $result['status'] = 'failes';
         }
     } else {
-        print_r($upload->errors());
-        echo "FAILED";
+        foreach ($upload->errors() as $error) {
+            if ($error == 'sorry the file already Exists') {
+                db::getInstance()->update('users', $user->data()->id, array('avatar' => $upload->file()));
+                $result['status'] = array('success', $upload->file());
+            } else {
+                $result['status'] = array('error', $upload->errors());
+            }
+        }
     }
+    echo json_encode($result);
 }

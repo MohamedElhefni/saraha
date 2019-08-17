@@ -1,8 +1,15 @@
 <?php
 require './core/init.php';
-$user = new user();
+if (!isset($_GET['user_id'])) {
+    header('Location: home.php');
+} else {
+    $user = new user();
+    $con = db::getInstance();
+    $data = $con->get('users', array('id', '=', input::get('user_id')));
+    if ($data->count()) {
 
-?>
+
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,8 +40,8 @@ $user = new user();
 
 
                 <?php
-                if ($user->isloggedIn()) {
-                    ?>
+                        if ($user->isloggedIn()) {
+                            ?>
                 <a href="settings.php" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                     Settings
                 </a>
@@ -42,34 +49,34 @@ $user = new user();
                     Logout
                 </a>
                 <?
-                } else {
-                    ?>
+                        } else {
+                            ?>
                 <a href="register.php" class="bg-transparent text-white font-semibold hover:text-teal-500 hover:bg-white py-2 px-4 border border-white-500 hover:border-transparent rounded">
                     register
                 </a>
                 <?php
-                }
-                ?>
+                        }
+                        ?>
             </div>
         </div>
     </nav>
 
     <div class="container mx-auto ">
         <div class="send m-4 text-center">
-            <img id="avatar" src="https://pbs.twimg.com/profile_images/808164059711504388/CyZa4rBW_400x400.jpg" alt="" class="avatar shadow-xl cursor-pointer w-40 rounded-full mx-auto ">
+            <img id="avatar" src="<?php echo $data->first()->avatar ?>" alt="" class="avatar shadow-xl cursor-pointer w-40 rounded-full mx-auto ">
             <div class="overlay"></div>
-            <h2 class="font-bold text-2xl mt-4">Mohamed Hossam</h2>
+            <h2 class="font-bold text-2xl mt-4"><?php echo $data->first()->name ?></h2>
             <div class="send-body my-4">
                 <form action="" method='post'>
                     <?php
-                    if ($user->isloggedIn()) {
-                        ?>
+                            if ($user->isloggedIn() && $user->data()->id == $data->first()->id) {
+                                ?>
                     <textarea name="message" id="message" cols="30" rows="10" class="appearance-none border-2 border-gray-400 rounded  py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 mx-auto resize-none w-2/3" disabled id="inline-full-name" placeholder="You Can't Send Messae To Your Self"></textarea>
 
                     <?php
-                    } else {
-                        ?>
-                    <textarea name="message" id="message" cols="30" rows="10" class="appearance-none border-2 border-gray-400 rounded  py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 mx-auto resize-none w-2/3" id="inline-full-name" placeholder="Make Your Message Positive"></textarea>
+                            } else {
+                                ?>
+                    <textarea required name="message" id="message" cols="30" rows="10" class="appearance-none border-2 border-gray-400 rounded  py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 mx-auto resize-none w-2/3" id="inline-full-name" placeholder="Make Your Message Positive"></textarea>
                     <button type="submit" class="  block py-2 px-4 bg-teal-500 text-white mx-auto hover:bg-teal-700 rounded">
                         <div class="flex inline-flex items-center">
                             <span><i class="fa fa-send"></i></span>
@@ -78,13 +85,15 @@ $user = new user();
                     </button>
 
                     <?php
-                    }
-                    ?>
+                            }
+                            ?>
 
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="assets/js/main.js"></script>
     <script>
         let avatar = document.getElementById('avatar');
         avatar.addEventListener('click', function() {
@@ -92,6 +101,35 @@ $user = new user();
             document.getElementsByClassName('overlay')[0].classList.toggle('block')
         })
     </script>
+    <?php
+            $query = ' SELECT * FROM users WHERE MD5(id) = 1 ';
+            if (input::exists()) {
+
+
+                try {
+                    $con->insert('messages', array(
+                        'to_user_id' => input::get('user_id'),
+                        'message'   => input::get('message'),
+                        'date'      => date('Y-m-d H:i:s')
+                    ));
+                    $msg = 'Message Sent Successfully';
+                    echo "
+                        <script>
+                            success('$msg');
+                        </script>
+                    ";
+                    echo "<script> setTimeout('window.open(\'home.php\', \'_self\')', 2000) </script>";
+                } catch (Exception $e) {
+                    echo "<script> 
+                        error('some thing went wrong');
+                    </script>";
+                }
+            }
+        } else {
+            header('Location: home.php');
+        }
+    }
+    ?>
 </body>
 
 </html>

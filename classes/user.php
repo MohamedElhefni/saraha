@@ -60,7 +60,7 @@ class user
         $user = $this->find($username);
         if ($user) {
             if ($this->data()->password === hash::make($password, $this->data()->salt)) {
-                session::put($this->_sessionName, $this->data()->id);
+                session::put($this->_sessionName, $this->data()->username);
                 return true;
             }
         }
