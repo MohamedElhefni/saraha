@@ -53,10 +53,10 @@ if (!$user->isloggedIn()) {
                 <div class=" ml-4 shadow-xl lg:fixed max-w-sm rounded overflow-hidden shadow-lg">
                     <div class="card-img">
                         <img class="w-full " src="assets/img/nature.jpeg" alt="Sunset in the mountains">
-                        <form action="./imgupload.php" id="upload_img" method="post">
+                        <form enctype="multipart/form-data" action="uploadimg.php" id="upload_img" method="post">
                             <label for="open"><img src="<?php echo $user->data()->avatar ?>" alt="" class="avatar shadow-xl cursor-pointer w-40 rounded-full mx-auto -mt-20"></label>
-                            <input type="file" name="profile_img" class="hidden" id="open">
-                            <input type="submit" value="upload" name="profile_pic">
+                            <input type="file" name="img" class="hidden" id="open">
+                            <input type="submit" value="upload" name="submit">
                         </form>
                         <?php
 
